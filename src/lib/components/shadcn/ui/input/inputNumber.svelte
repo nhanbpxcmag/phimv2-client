@@ -1,0 +1,59 @@
+<script lang="ts">
+  import type { HTMLInputAttributes } from "svelte/elements";
+  import type { InputEvents } from "./index.js";
+  import { cn } from "$lib/components/utils.js";
+
+  type $$Props = HTMLInputAttributes;
+  type $$Events = InputEvents;
+
+  let className: $$Props["class"] = undefined;
+  export let value: $$Props["value"] = undefined;
+  export { className as class };
+
+  // Workaround for https://github.com/sveltejs/svelte/issues/9305
+  // Fixed in Svelte 5, but not backported to 4.x.
+  export let readonly: $$Props["readonly"] = undefined;
+
+  function updateValue(e: Event): void {
+    const target = e.target as HTMLInputElement;
+    var numsStr = target.value.replace(/[^0-9]/g, "");
+    const newValue = parseFloat(numsStr);
+
+    if (isFinite(newValue)) {
+      value = newValue;
+    } else {
+      // value = "";
+      target.value = value?.toString() || "";
+    }
+  }
+</script>
+
+<input
+  class={cn(
+    "input w-full input-bordered data-[fs-error]:border-error data-[fs-error]:focus-within:outline-error data-[fs-error]:focus:outline-error/50",
+    className,
+  )}
+  type="text"
+  inputmode="numeric"
+  pattern="[0-9.]*"
+  bind:value
+  {readonly}
+  on:blur
+  on:change
+  on:click
+  on:focus
+  on:focusin
+  on:focusout
+  on:keydown
+  on:keypress
+  on:keyup
+  on:mouseover
+  on:mouseenter
+  on:mouseleave
+  on:mousemove
+  on:paste
+  on:input
+  on:wheel|passive
+  on:input|preventDefault={updateValue}
+  {...$$restProps}
+/>

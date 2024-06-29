@@ -12,7 +12,7 @@
 <PopoverPrimitive.Content
   {transition}
   {transitionConfig}
-  class={cn("z-50 w-72 rounded-md bg-base-200 border p-4 shadow-md outline-none", className)}
+  class={cn("z-[999] w-72 rounded-md bg-base-200 border p-4 shadow-md outline-none", className)}
   {...$$restProps}
 >
   <slot />

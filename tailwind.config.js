@@ -1,7 +1,13 @@
+import { backgroundImage } from "./backgroundImage";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+    },
     extend: {
       colors: {
         border: "hsl(var(--border) / <alpha-value>)",
@@ -39,9 +45,6 @@ export default {
         dialog: "var(--z-index-dialog)",
         menu: "999",
       },
-      animation: {
-        click: "animation-click 0.5s ease-out",
-      },
       keyframes: {
         pop: {
           "0%": {
@@ -59,6 +62,7 @@ export default {
       },
       animation: {
         "button-pop": "pop 0.5s ease-out",
+        click: "animation-click 0.5s ease-out",
       },
       screens: {
         onlyHover: { raw: "(hover: hover) and (pointer: fine)" },
@@ -73,11 +77,19 @@ export default {
         "5xl": "64rem",
         "6xl": "72rem",
         "7xl": "80rem",
+        "8xl": "100rem",
+        tv40: "240rem",
+      },
+      width: {
+        screen1: "calc(100vw - var(--scrollbarX))",
+      },
+      height: {
+        screen1: "var(--h-client)",
       },
     },
   },
   plugins: [require("@tailwindcss/container-queries"), require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
-    themes: ["cupcake"],
+    themes: ["business"],
   },
 };

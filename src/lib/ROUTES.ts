@@ -8,7 +8,17 @@
 /**
  * PAGES
  */
+export const PAGE_a = `/a`
+export const PAGE_a_phim = `/a/phim`
+export const PAGE_a_phim_add = `/a/phim/add`
+export const PAGE_a_phim_add_slug = (params: { slug: (string | number) }) => {
+  return `/a/phim/add/${params.slug}`
+}
 export const PAGE__ROOT = `/`
+export const PAGE_x_slug = (params: { slug: (string | number) }) => {
+  return `/x/${params.slug}`
+}
+export const PAGE_login = `/login`
 
 /**
  * SERVERS
@@ -98,9 +108,9 @@ function StringOrUndefined(val: any) {
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '_ROOT': never }
+  PAGES: { 'a': never, 'a_phim': never, 'a_phim_add': never, 'a_phim_add_slug': 'slug', '_ROOT': never, 'x_slug': 'slug', 'login': never }
   SERVERS: Record<string, never>
   ACTIONS: Record<string, never>
   LINKS: Record<string, never>
-  Params: Record<string, never>
+  Params: { slug: never }
 }

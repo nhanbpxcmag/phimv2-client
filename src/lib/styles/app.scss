@@ -1,7 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+  --rounded-box: 0.8rem;
+  --rounded-btn: 0.4rem;
+  --rounded-badge: 1.5rem;
 
+  --w-screen: calc(100vw - var(--scrollbarX));
+}
+html {
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  overflow-x: hidden;
+  width: calc(100vw - var(--scrollbarX));
+}
+
+// img,
+// video {
+//   height: 100%;
+//   width: 100%;
+// }
 @import "@animxyz/core";
 @include xyz-all;
 
