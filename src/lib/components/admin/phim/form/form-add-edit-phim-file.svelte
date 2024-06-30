@@ -5,6 +5,7 @@
   import { createMutation } from "@tanstack/svelte-query";
   import { call_check_file } from "$lib/api/file/file.api";
   import { toast } from "svelte-sonner";
+  import { store_url_api } from "$lib/stores";
 
   export let errors: { filePath: string[] | undefined; fileName: string[] | undefined; fileExt: string[] | undefined };
   export let value_filePath: string | null;
@@ -14,7 +15,7 @@
   let hasfile = "";
 
   const checkFile = createMutation({
-    mutationFn: (path: string) => call_check_file(path),
+    mutationFn: (path: string) => call_check_file($store_url_api.api, path),
     onSuccess: async (response) => {
       let data = await response.json();
       if (data.data) {

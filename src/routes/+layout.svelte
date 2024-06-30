@@ -50,7 +50,7 @@
 
 <svelte:window bind:innerWidth={window_innerWidth} bind:innerHeight={window_clientHeight} />
 <div
-  class="absolute w-full h-full opacity-0 bg-neutral"
+  class="absolute w-full h-full opacity-0 bg-neutral -z-10"
   bind:clientWidth={body_clientWidth}
   bind:clientHeight={body_clientHeight}
 ></div>
