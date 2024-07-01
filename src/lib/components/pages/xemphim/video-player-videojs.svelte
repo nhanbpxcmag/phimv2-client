@@ -51,6 +51,9 @@
   let is_iphone = false;
   let el_main: HTMLElement;
   let _videojs: Player;
+  let track_options = {
+    bg: false,
+  };
   let playerOptions = {
     controls: true,
     autoplay: false,
@@ -131,23 +134,29 @@
 </script>
 
 <div class="relative fBXjveu" bind:this={el_main}>
-  <div class:show_title>
+  <div class:show_title class={clsx({ "track-bg": track_options["bg"] })}>
     <div
       class={clsx({ "xyz-in": show_title, "xyz-out": !show_title }, "top")}
       xyz={clsx($store_settings.animation && "fade duration-10 up")}
     >
-      <!-- <div
-        class={clsx({ "xyz-in": show_title, "xyz-out": !show_title })}
-    
-      > -->
-      <div class="flex items-center gap-4 px-8 pt-4">
-        <a class="btn btn-circle btn-error btn-sm" href={PAGE__ROOT}>
-          <ArrowLeft />
-        </a>
-        <div class="title">{title}</div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4 px-8 pt-4">
+          <a class="btn btn-circle btn-error btn-sm" href={PAGE__ROOT}>
+            <ArrowLeft />
+          </a>
+          <div class="title">{title}</div>
+        </div>
+        <div>
+          <div class="form-control">
+            <label class="cursor-pointer label">
+              <span class="mr-2 label-text">bg</span>
+              <input type="checkbox" bind:checked={track_options["bg"]} class="checkbox" />
+            </label>
+          </div>
+        </div>
       </div>
-      <!-- </div> -->
     </div>
+    <!-- svelte-ignore a11y-media-has-caption -->
     <video
       bind:this={refVideo}
       on:canplay={() => {
@@ -161,7 +170,7 @@
       controls
       class={clsx("transition-all duration-300 video-js", show_dialog ? "blur hover:blur-sm" : "")}
     >
-      <source src={link_stream} />
+      <source src={link_stream} type="video/mp4" />
       {#if link_sub}
         <track default={true} kind="captions" src={link_sub} srclang="vi" label="Viet" />
       {/if}
@@ -180,223 +189,6 @@
     z-index: 100;
     & .title {
       font-size: clamp(2rem, 6vw, 3rem);
-    }
-  }
-
-  :global(.plyr__caption, video::cue) {
-    font-size: clamp(2rem, 6vw, 4.2rem);
-    color: #fff;
-    padding: 2px;
-    background: #000;
-    text-shadow:
-      -1px -1px 0 #000,
-      1px -1px 0 #000,
-      -1px 1px 0 #000,
-      1px 1px 0 #000;
-  }
-  :global(.fBXjveu) {
-    & .video-js {
-      @apply w-screen1 h-screen1;
-      &:hover .vjs-big-play-button {
-        @apply bg-error;
-      }
-      & .vjs-control:focus:before,
-      & .vjs-control:hover:before,
-      & .vjs-control:focus {
-        text-shadow: none;
-      }
-    }
-    & .vjs-slider {
-      @apply bg-error text-error-content;
-      &:focus {
-        text-shadow: none;
-        box-shadow: none;
-      }
-    }
-    & .vjs-poster {
-      z-index: 1;
-      & img {
-        @apply w-screen1 h-screen1;
-        object-fit: cover;
-        /* height: 100vh; */
-      }
-    }
-    & .vjs-big-play-button {
-      @apply rounded-full bg-error/80 border-none;
-      top: calc(50vh - 30px);
-      left: calc(50vw - 30px);
-      width: 60px;
-      height: 60px;
-      z-index: 100;
-      line-height: 1.9em;
-      & .vjs-icon-placeholder {
-        &:before {
-          @apply text-error-content;
-        }
-      }
-      &:hover {
-        @apply bg-error;
-      }
-    }
-    & .vjs-paused.vjs-has-started {
-      cursor: pointer;
-      background-color: #000;
-      & .vjs-big-play-button {
-        display: block;
-      }
-    }
-    & .show_title {
-      & .vjs-text-track-display {
-        & .vjs-text-track-cue {
-          bottom: 80px !important;
-          top: auto !important;
-        }
-      }
-    }
-    & .vjs-text-track-cue div {
-      @apply px-2;
-    }
-    & .vjs-modal-dialog {
-      z-index: 10;
-    }
-    & .vjs-loading-spinner {
-      @apply bg-error border-none animate-spin;
-      background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1sb2FkZXItY2lyY2xlIj48cGF0aCBkPSJNMjEgMTJhOSA5IDAgMSAxLTYuMjE5LTguNTYiLz48L3N2Zz4=");
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-    & .vjs-control-bar {
-      @apply justify-center items-center;
-      z-index: 9999;
-      background-color: transparent;
-      background-image: linear-gradient(90deg, #02010100 0%, #02010169 20%, #151515 100%);
-      bottom: 0px;
-      padding-top: 10px;
-      height: 100px;
-      & .vjs-control {
-        width: 60px;
-        &:focus-visible {
-          outline: none;
-          box-shadow: none;
-        }
-      }
-      & .vjs-progress-holder:focus-visible {
-        outline: none;
-        box-shadow: none;
-      }
-      & .vjs-icon-placeholder {
-        &:before {
-          @apply flex justify-center items-center;
-          font-size: 50px;
-        }
-      }
-      & .vjs-play-control {
-        @apply select-none;
-        order: 1;
-        flex: 1 1;
-        & .vjs-icon-placeholder {
-          &:before {
-            @apply flex justify-start items-center pl-4;
-            font-size: 50px;
-          }
-        }
-      }
-      & .vjs-volume-panel {
-        order: 2;
-        flex: 1 1;
-      }
-      & .vjs-volume-control {
-        @apply flex items-center;
-        width: 100% !important;
-        height: 100% !important;
-        & .vjs-slider-horizontal {
-          &.vjs-volume-bar {
-            @apply rounded bg-gray-500;
-            width: 80% !important;
-            max-width: 100% !important;
-            height: 8px !important;
-          }
-          & .vjs-volume-level {
-            @apply bg-error;
-            height: 100%;
-            &:before {
-              font-size: 20px;
-            }
-          }
-        }
-      }
-      & .vjs-progress-control {
-        @apply h-2;
-        position: absolute;
-        width: 100%;
-        bottom: 95px;
-        z-index: 100;
-        &:hover {
-          & .vjs-progress-holder {
-            @apply h-2;
-          }
-        }
-        & .vjs-progress-holder {
-          @apply mx-4 h-1 bg-gray-500 rounded;
-        }
-        & .vjs-load-progress {
-          @apply rounded bg-error/50;
-          & div {
-            @apply rounded bg-transparent;
-            &[data-start="0"] {
-              display: none;
-            }
-          }
-        }
-        & .vjs-play-progress {
-          @apply bg-error rounded;
-          &:before {
-            @apply text-error;
-            font-size: 28px;
-          }
-        }
-        & .vjs-time-tooltip {
-          @apply bg-error text-error-content;
-          font-size: 18px;
-          font-weight: 700;
-        }
-      }
-      & .vjs-remaining-time {
-        @apply flex justify-center items-center;
-        order: 3;
-        font-size: 24px;
-        line-height: 0px;
-        flex: 8 1;
-      }
-      & .vjs-subs-caps-button {
-        order: 4;
-        flex: 1 1;
-      }
-
-      & .vjs-fullscreen-control {
-        order: 6;
-        flex: 2 1;
-        & .vjs-icon-placeholder {
-          &:before {
-            @apply flex justify-end items-center pr-4;
-            font-size: 50px;
-          }
-        }
-      }
-
-      & .vjs-menu-button-popup .vjs-menu {
-        bottom: min(10vh, 50px);
-        margin-bottom: 0px;
-        & .vjs-menu-content {
-          font-family: inherit;
-          width: 120px;
-        }
-        & .vjs-menu-item {
-          font-size: 18px;
-          padding: 8px;
-        }
-      }
     }
   }
 
