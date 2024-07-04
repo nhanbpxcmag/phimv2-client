@@ -12,10 +12,10 @@ export default defineConfig({
     }),
   ],
   server: {
-    port: 1996,
+    port: 1885,
     host: true,
   },
   preview: {
-    port: 1996,
+    port: 1885,
   },
 });
